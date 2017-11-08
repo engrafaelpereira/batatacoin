@@ -1,6 +1,7 @@
 package com.batatacoin.entity.mercadobitcoin;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Ticker {
 
@@ -72,6 +73,9 @@ public class Ticker {
 
 	@Override
 	public String toString() {
-		return "Ticker [last=" + last + ", sell=" + sell + ", buy=" + buy + ", date=" + date + "]";
+		Date convertedDate = new Date(date * 1000L);
+		String txt = convertedDate.toLocaleString();
+				
+		return "Ticker [last=" + last + ", sell=" + sell + ", buy=" + buy + ", date=" + txt + "]";
 	}
 }

@@ -1,5 +1,5 @@
 package com.batatacoin.service;
 
-public class TickerService {
-
+public interface TickerService {
+	String getTicker();
 }

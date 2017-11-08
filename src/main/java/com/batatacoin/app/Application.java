@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan("com.batatacoin.scheduler")
+@ComponentScan({"com.batatacoin.scheduler", "com.batatacoin.service"})
 public class Application {
 
     public static void main(String[] args) throws Exception {

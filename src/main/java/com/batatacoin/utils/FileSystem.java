@@ -18,7 +18,7 @@ public class FileSystem {
 			if(!diretorio.exists()) {
 				diretorio.mkdir();
 			}
-			String caminhoArquivo = String.join(path, nomeArquivo);
+			String caminhoArquivo = String.format("%s%s",path, nomeArquivo);
 			File arquivo = new File(caminhoArquivo);
 			if(arquivo.exists() && !arquivo.isDirectory()) { 
 				Files.write(Paths.get(caminhoArquivo), mensagem.getBytes(), StandardOpenOption.APPEND);

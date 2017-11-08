@@ -18,15 +18,15 @@ public class ScheduledTasks {
 	@Autowired
 	private TickerService tickerService;
 
-    private static final int SPLEEP_TIME = 1000;
+    private static final int SLEEP_TIME = 1000;
 
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-    @Scheduled(fixedRate = SPLEEP_TIME)
+    
+    @Scheduled(fixedRate = SLEEP_TIME)
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
-        log.info(tickerService.getTicker());
+        log.info(tickerService.getTicker().getTicker().toString());
     }
 }

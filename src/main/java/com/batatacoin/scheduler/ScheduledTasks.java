@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.batatacoin.business.enums.EstruturaWalletFake;
 import com.batatacoin.business.enums.TipoMoedaEnum;
@@ -45,6 +45,12 @@ public class ScheduledTasks {
 	@Value("${nome.wallet.fake}")
 	private String nomeWalletFake;
 
+	@Value("${path.ultimo.valor}")
+	private String pathUltimoValor;
+
+	@Value("${nome.ultimo.valor}")
+	private String nomeUltimoValor;
+
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 	@Scheduled(fixedRate = SLEEP_TIME)
@@ -73,12 +79,29 @@ public class ScheduledTasks {
 
 		return null;
 	}
-	
+
 	private void comprarBitcoin(Wallet carteira, Ticker ticker) {
-		
+		BigDecimal valorUltimaTransacao = new BigDecimal(FileSystem.lerUltimaLinha(pathUltimoValor, nomeUltimoValor));
+		BigDecimal valorCompra = valorUltimaTransacao.subtract(valorUltimaTransacao.multiply(percentual));
+		if (ticker.last.compareTo(valorCompra) <= 0) {
+			FileSystem.salvar(path, nomeArquivo,
+					String.format("Comprando Bitcoins, pelo valor %f . %f Bitcoints comprados", ticker.last,
+							carteira.getValor().divide(ticker.last)));
+			FileSystem.salvar(pathWalletFake, nomeWalletFake, String.format("%s%f", TipoMoedaEnum.BTC.getMoeda(),
+					StringUtils.leftPad(carteira.getValor().divide(ticker.last).toString(), 16, '0')));
+			FileSystem.salvar(pathUltimoValor, nomeUltimoValor, ticker.last.toString());
+		}
 	}
-	
+
 	private void venderBitcoin(Wallet carteira, Ticker ticker) {
-		
+		BigDecimal valorUltimaTransacao = new BigDecimal(FileSystem.lerUltimaLinha(pathUltimoValor, nomeUltimoValor));
+		BigDecimal valorVenda = valorUltimaTransacao.add(valorUltimaTransacao.multiply(percentual));
+		if (ticker.last.compareTo(valorVenda) == 1) {
+			FileSystem.salvar(path, nomeArquivo, String.format(
+					"Vendendo Bitcoins, pelo valor %f . %f Bitcoints vendidos", ticker.last, carteira.getValor()));
+			FileSystem.salvar(pathWalletFake, nomeWalletFake, String.format("%s%f", TipoMoedaEnum.BLR.getMoeda(),
+					StringUtils.leftPad(carteira.getValor().multiply(ticker.last).toString(), 16, '0')));
+			FileSystem.salvar(pathUltimoValor, nomeUltimoValor, ticker.last.toString());
+		}
 	}
 }

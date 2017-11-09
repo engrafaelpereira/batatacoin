@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE'
-        
+    compile("org.apache.commons:commons-lang3:3.5")
 
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.

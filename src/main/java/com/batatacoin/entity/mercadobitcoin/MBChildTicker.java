@@ -3,7 +3,9 @@ package com.batatacoin.entity.mercadobitcoin;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Ticker {
+import com.batatacoin.entity.Ticker;
+
+public class MBChildTicker implements Ticker {
 
 	public BigDecimal high;
 	
@@ -76,6 +78,6 @@ public class Ticker {
 		Date convertedDate = new Date(date * 1000L);
 		String txt = convertedDate.toLocaleString();
 				
-		return "Ticker [last=" + last + ", sell=" + sell + ", buy=" + buy + ", date=" + txt + "]";
+		return "MBChildTicker [last=" + last + ", sell=" + sell + ", buy=" + buy + ", date=" + txt + "]";
 	}
 }

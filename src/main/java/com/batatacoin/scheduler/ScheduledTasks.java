@@ -16,7 +16,7 @@ import com.batatacoin.business.enums.EstruturaWalletFake;
 import com.batatacoin.business.enums.TipoMoedaEnum;
 import com.batatacoin.business.model.Wallet;
 import com.batatacoin.business.model.WalletFake;
-import com.batatacoin.entity.mercadobitcoin.Ticker;
+import com.batatacoin.entity.Ticker;
 import com.batatacoin.service.TickerService;
 import com.batatacoin.utils.FileSystem;
 
@@ -26,7 +26,7 @@ public class ScheduledTasks {
 	@Autowired
 	private TickerService tickerService;
 
-	private static final int SLEEP_TIME = 1000;
+	private static final int REFRESH_TIME = 1000;
 
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
@@ -47,16 +47,16 @@ public class ScheduledTasks {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-	@Scheduled(fixedRate = SLEEP_TIME)
-	public void reportCurrentTime() {
+	@Scheduled(fixedRate = REFRESH_TIME)
+	public void reportTicker() {
 		log.info("The time is now {}", dateFormat.format(new Date()));
 		Wallet carteira = montarWalletFake();
 		if (carteira.getMoedaAtual() == TipoMoedaEnum.BLR) {
-			comprarBitcoin(carteira, tickerService.getTicker().getTicker());
+			comprarBitcoin(carteira, tickerService.getTicker());
 		} else {
-			venderBitcoin(carteira, tickerService.getTicker().getTicker());
+			venderBitcoin(carteira, tickerService.getTicker());
 		}
-		log.info(tickerService.getTicker().getTicker().toString());
+		log.info(tickerService.getTicker().toString());
 	}
 
 	private Wallet montarWalletFake() {

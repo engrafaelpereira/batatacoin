@@ -1,19 +1,19 @@
 package com.batatacoin.entity.mercadobitcoin;
 
 public class MBTicker {
-	public Ticker ticker;
+	public MBChildTicker mBChildTicker;
 
-	public Ticker getTicker() {
-		return ticker;
+	public MBChildTicker getTicker() {
+		return mBChildTicker;
 	}
 
-	public void setTicker(Ticker ticker) {
-		this.ticker = ticker;
+	public void setTicker(MBChildTicker mBChildTicker) {
+		this.mBChildTicker = mBChildTicker;
 	}
 
 	@Override
 	public String toString() {
-		return "MBTicker [ticker=" + ticker + "]";
+		return "MBTicker [mBChildTicker=" + mBChildTicker + "]";
 	}
 	
 	

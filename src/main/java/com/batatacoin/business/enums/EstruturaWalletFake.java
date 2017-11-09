@@ -3,7 +3,7 @@ package com.batatacoin.business.enums;
 public enum EstruturaWalletFake {
 	
 	MOEDA(0, 3),
-	VALOR(3, 16);
+	VALOR(3, 25);
 	
 	private int posInicial;
 	private int posFinal;

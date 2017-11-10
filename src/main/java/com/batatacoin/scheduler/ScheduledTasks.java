@@ -1,6 +1,7 @@
 package com.batatacoin.scheduler;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -86,9 +87,9 @@ public class ScheduledTasks {
 		if (ticker.getLast().compareTo(valorCompra) <= 0) {
 			FileSystem.salvar(path, nomeArquivo,
 					String.format("Comprando Bitcoins, pelo valor %f . %f Bitcoints comprados", ticker.getLast(),
-							carteira.getValor().divide(ticker.getLast())));
+							carteira.getValor().divide(ticker.getLast(), 8, RoundingMode.HALF_EVEN)));
 			FileSystem.salvar(pathWalletFake, nomeWalletFake, String.format("%s%s", TipoMoedaEnum.BTC.getMoeda(),
-					StringUtils.leftPad(carteira.getValor().divide(ticker.getLast()).toString(), 22, '0')));
+					StringUtils.leftPad(carteira.getValor().divide(ticker.getLast(), 8, RoundingMode.HALF_EVEN).toString(), 22, '0')));
 			FileSystem.salvar(pathUltimoValor, nomeUltimoValor, ticker.getLast().toString());
 		}
 	}
